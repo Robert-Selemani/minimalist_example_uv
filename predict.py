@@ -22,7 +22,19 @@ def predict(model_path, historic_data_path, future_data_path, out_file_path):
     """
     model = joblib.load(model_path)
     future_df = pd.read_csv(future_data_path)
-    features = future_df[["rainfall", "mean_temperature"]].fillna(0)
+
+    # Determine expected feature names from the trained model if available
+    if hasattr(model, "feature_names_in_"):
+        expected_features = list(model.feature_names_in_)
+    else:
+        # Fallback: assume the two climate features used by this example
+        expected_features = ["rainfall", "mean_temperature"]
+
+    missing = [c for c in expected_features if c not in future_df.columns]
+    if missing:
+        raise ValueError(f"Missing required feature columns in future data: {missing}")
+
+    features = future_df[expected_features].fillna(0)
 
     predictions = model.predict(features)
     output_df = future_df[["time_period", "location"]].copy()
