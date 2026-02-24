@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# Output / runtime artifacts
+output/
+runs/
+uv.lock
+
+# macOS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints
+
+# Model artifacts
+*.pkl
+
+# Coverage and test
+.pytest_cache/
